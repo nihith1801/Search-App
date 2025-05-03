@@ -3,6 +3,8 @@
 A high-performance file search application built with Electron and JavaScript, optimized for Windows systems.
 
 ## Getting Started
+![image](https://github.com/user-attachments/assets/d935e7b3-d366-4a0b-9ca3-b82d01dffa63)
+
 
 ### Windows 10/11 Users (Recommended Method)
 
