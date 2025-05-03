@@ -1,0 +1,4 @@
+=== DEBUG LOG 2025-05-03T08:47:31.958Z ===
+
+[2025-05-03T08:47:31.961Z] Debug wrapper starting main.js
+[2025-05-03T08:47:31.970Z] Main.js loaded successfully

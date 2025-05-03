@@ -1,0 +1,444 @@
+.App {
+  text-align: center;
+  height: auto; /* Change from 100vh to auto to adapt to content */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 0; /* Remove top padding */
+  padding: 0; /* Remove all padding */
+  margin: 0; /* Remove margins */
+  background: transparent !important;
+  -webkit-app-region: drag; /* Allow dragging the window */
+  overflow: hidden; /* Hide any overflow */
+}
+
+body, html {
+  background: transparent !important;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 6px 8px; /* Reduce padding */
+  border-radius: 8px;
+  margin: 0; /* Remove all margins */
+  position: relative;
+  background-color: rgba(40, 40, 40, 0.85);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  -webkit-app-region: no-drag; /* Don't allow dragging the search box */
+  z-index: 2; /* Ensure it's above results */
+  height: 40px; /* Fixed height to prevent resize */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgba(60, 60, 60, 0.6);
+  color: #ffffff;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.search-box:focus {
+  background-color: rgba(70, 70, 70, 0.8);
+  box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.5);
+}
+
+.results-container {
+  width: 100%;
+  max-width: 600px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0; /* Remove margin */
+  background-color: transparent !important;
+  -webkit-app-region: no-drag;
+}
+
+/* Fix for results not being cut off at bottom of screen */
+@media screen and (max-height: 600px) {
+  .results-container {
+    max-height: 250px;
+  }
+}
+
+/* Hide scrollbar but allow scrolling */
+.results-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px; /* Reduce padding */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #ffffff;
+  background-color: rgba(40, 40, 40, 0.95);
+  border-radius: 6px;
+  margin-top: 1px; /* Small gap between items */
+  margin-bottom: 0; /* No bottom margin on last item */
+  height: 28px; /* Reduce height for more compact look */
+}
+
+.result-item:hover, .result-item.selected {
+  background-color: rgba(80, 80, 200, 0.4); /* Blue highlight for hover/selection */
+}
+
+.result-icon {
+  margin-right: 12px;
+  font-size: 20px;
+  color: #c0c0c0;
+}
+
+/* Special styling for executable file icons */
+.result-icon.executable {
+  color: #2ecc71; /* Bright green color for executables */
+  font-size: 1.2em; /* Slightly larger */
+  text-shadow: 0 0 5px rgba(46, 204, 113, 0.3); /* Subtle glow effect */
+}
+
+/* Special styling specifically for .exe files to make them stand out more */
+.result-icon.executable.exe-file {
+  color: #3498db; /* Blue color for .exe files specifically */
+  font-size: 1.3em; /* Even larger */
+  text-shadow: 0 0 8px rgba(52, 152, 219, 0.5); /* More pronounced glow */
+  animation: pulse 2s infinite; /* Subtle pulsing effect */
+}
+
+/* Styling for program files in Program Files directory */
+.result-icon.executable.program-files {
+  color: #e74c3c; /* Red color for program files */
+  font-size: 1.3em;
+  text-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+/* Styling for system executables */
+.result-icon.executable.system-file {
+  color: #f39c12; /* Orange color for system files */
+  font-size: 1.3em;
+  text-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+}
+
+/* Styling for game executables */
+.result-icon.executable.game-file {
+  color: #9b59b6; /* Purple color for game files */
+  font-size: 1.3em;
+  text-shadow: 0 0 8px rgba(155, 89, 182, 0.5);
+}
+
+/* Animation for the executable icon */
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/* Styling for result items that are executables */
+.result-item.executable-item {
+  background-color: rgba(52, 152, 219, 0.15); /* Light blue background */
+  border-left: 3px solid #3498db; /* Blue border */
+}
+
+.result-item.executable-item:hover, 
+.result-item.executable-item.selected {
+  background-color: rgba(52, 152, 219, 0.3); /* Brighter blue on hover/selection */
+}
+
+.result-details {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+}
+
+.result-filename {
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Make executable filenames stand out more */
+.executable-item .result-filename {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.result-path {
+  font-size: 12px;
+  color: #a0a0a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.settings-button, .help-button {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  -webkit-app-region: no-drag; /* Don't allow dragging buttons */
+}
+
+.settings-button:hover, .help-button:hover {
+  opacity: 0.8;
+}
+
+.settings-button {
+  right: 15px;
+  top: 15px;
+}
+
+.help-button {
+  right: 40px;
+  top: 15px;
+}
+
+.progress-container {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 5px;
+  padding: 8px;
+  background-color: rgba(40, 40, 40, 0.6);
+  border-radius: 4px;
+  font-size: 12px;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  height: 4px;
+  width: 100%;
+  background-color: rgba(60, 60, 60, 0.5);
+  border-radius: 2px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #6464ff;
+  transition: width 0.3s ease;
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  width: 20px;
+  height: 20px;
+  line-height: 18px;
+  text-align: center;
+  -webkit-app-region: no-drag; /* Don't allow dragging buttons */
+  z-index: 10;
+}
+
+.close-button:hover {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Add a draggable region at the top */
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  -webkit-app-region: drag;
+  background: transparent;
+}
+
+.spotlight-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 10%;
+  background-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.spotlight {
+  width: 700px;
+  background-color: rgba(36, 36, 36, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  color: white;
+  background-color: rgba(55, 55, 55, 0.4);
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-spinner {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.no-results {
+  padding: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.api-error {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgba(231, 76, 60, 0.2);
+  border-radius: 6px;
+  border-left: 4px solid #e74c3c;
+  text-align: left;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.api-error p {
+  margin: 5px 0;
+}
+
+.api-error code {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.api-error ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.api-error li {
+  margin-bottom: 5px;
+}
+
+.connection-error {
+  margin: 20px;
+  padding: 20px;
+  background-color: rgba(231, 76, 60, 0.15);
+  border-radius: 8px;
+  border-left: 5px solid #e74c3c;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.connection-error h3 {
+  margin-top: 0;
+  color: #e74c3c;
+  font-size: 18px;
+}
+
+.connection-error ol,
+.connection-error ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.connection-error li {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.connection-error code {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  color: #f1c40f;
+}
+
+/* Scrollbar styling */
+.results-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.results-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+}
+
+.loader-container {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  width: 25px;
+  height: 25px;
+  scale: 0.4;
+}
+
+/* Customize loader colors to match app theme */
+.loader-container #wifi-loader {
+  --background: rgba(40, 40, 40, 0.85);
+  --front-color: #6464ff;
+  --back-color: rgba(255, 255, 255, 0.2);
+  --text-color: rgba(255, 255, 255, 0.6);
+} 

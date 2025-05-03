@@ -1,0 +1,28 @@
+===== DEBUG LOG 03-05-2025 14:16:02.91 ===== 
+ 
+[DEBUG] Patching stub.js to enable verbose logging... 
+[DEBUG] Starting Electron app... 
+
+> cursor-file-launcher@1.0.0 start
+> electron .
+
+
+Attempting to load native addon from: D:\File_search_app\build\Release\searchAddon.node
+Successfully loaded native search addon
+Creating application window...
+Initializing search engine with asynchronous indexing
+SQLiteIndexer initialized in dummy mode (SQLite SDK not available)
+Search engine initialized successfully
+Waiting for React dev server to start... (1/30)
+[26892:0503/141604.331:WARNING:CONSOLE(2)] "%cElectron Security Warning (Insecure Content-Security-Policy) font-weight: bold; This renderer process has either no Content Security
+  Policy set or a policy with "unsafe-eval" enabled. This exposes users of
+  this app to unnecessary security risks.
+
+For more information and help, consult
+https://electronjs.org/docs/tutorial/security.
+This warning will not show up
+once the app is packaged.", source: node:electron/js2c/sandbox_bundle (2)
+Window is now visible
+[26892:0503/141604.536:ERROR:CONSOLE(1)] "Uncaught (in promise) TypeError: Failed to fetch", source: devtools://devtools/bundled/panels/elements/elements.js (1)
+Waiting for React dev server to start... (2/30)
+Waiting for React dev server to start... (3/30)

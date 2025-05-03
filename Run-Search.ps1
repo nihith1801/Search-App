@@ -1,0 +1,1 @@
+& "$PSScriptRoot\Start-FileSearch.ps1" 

@@ -1,0 +1,32 @@
+{
+  "name": "file-search-app",
+  "version": "1.0.0",
+  "description": "A file search launcher application",
+  "main": "electron/main.js",
+  "scripts": {
+    "postinstall": "npm install concurrently cross-env --save-dev && cd ui && npm install && cd ../electron && npm install && cd ../native && npm install",
+    "build": "node build.js",
+    "start": "cross-env NODE_ENV=production electron .",
+    "start:clean": "cross-env NODE_ENV=production electron . --no-sandbox",
+    "start:dev": "concurrently \"cd ui && npm start\" \"cross-env NODE_ENV=development electron .\"",
+    "start:ui": "cd ui && npm start",
+    "start:electron": "electron .",
+    "cleanup": "node cleanup.js"
+  },
+  "keywords": [
+    "search",
+    "file",
+    "launcher",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "electron": "^25.0.0",
+    "node-addon-api": "^8.3.1"
+  }
+}

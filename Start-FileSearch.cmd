@@ -1,0 +1,3 @@
+@echo off
+echo Starting File Search App...
+powershell -ExecutionPolicy Bypass -File "%~dp0Start-FileSearch.ps1" 
